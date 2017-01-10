@@ -4,23 +4,6 @@ require 'capybara'
 require 'capybara/dsl'
 require_relative 'data_parser'
 
-puts "Gather data"
-file = File.open("ovidio_choro/video_page.html") do |f|
-  Nokogiri::HTML(f)
-end
-
-videos = []
-
-file.css("li .channels-content-item").each do |i|
-  video = {}
-  video['title'] = i.children[1].elements[0].css("a")[1]["title"]
-  video['url']   = i.children[1].elements[0].css("a")[1]["href"]
-  videos << video
-end
-
-puts "Finished Gathering data"
-
-
 # Config
 Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
@@ -38,6 +21,7 @@ module YouTube
       start = Time.now
       sleep_default = 3
       sleep_long = 9
+      sleep_whoa = sleep_long * 2
 
       puts "Visiting page"
       visit('http://www.audiojack.io/')
@@ -48,7 +32,7 @@ module YouTube
 
       puts "Click go"
       click_button("Go!")
-      sleep(sleep_long)
+      sleep(sleep_whoa)
 
       puts "Fill in artist"
       find('#custom-artist')
@@ -64,7 +48,7 @@ module YouTube
       puts "Scroll down"
       page.execute_script "window.scrollBy(0,10000)"
       click_button("Download with custom tags")
-      sleep(sleep_long * 2)
+      sleep(sleep_whoa)
 
       puts "Starting dowload"
       find(".dl").click
