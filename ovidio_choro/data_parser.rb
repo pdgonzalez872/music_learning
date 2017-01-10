@@ -14,4 +14,9 @@ def file_parser(file:)
   videos
 end
 
-puts file_parser(file: 'ovidio_choro/urls.txt')
+# return hash
+def line_parser(line:)
+  video = {}
+  split_line = line.split('|')
+  video['title'], video['url'] = split_line[0], split_line[1]
+end
