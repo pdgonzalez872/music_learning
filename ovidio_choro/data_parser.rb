@@ -18,5 +18,6 @@ end
 def line_parser(line:)
   video = {}
   split_line = line.split('|')
-  video['title'], video['url'] = split_line[0], split_line[1]
+  video['title'], video['url'] = split_line[0], split_line[1].delete("\n")
+  video
 end
